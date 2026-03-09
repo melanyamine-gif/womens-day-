@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Perloula 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #ff758c;
-            --secondary: #ff7eb3;
+            --env-color: #ff4d6d;
+            --env-inner: #ff8fa3;
+            --env-shadow: #c9184a;
             --bg: #fff5f7;
-            --envelope-color: #ff4d6d;
-            --envelope-dark: #c9184a;
-            --text-color: #4a4a4a;
         }
 
         body {
@@ -21,32 +19,51 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle at center, #fff5f7 0%, #ffdeeb 100%);
+            background: radial-gradient(circle at center, #fff5f7 0%, #ffdae9 100%);
             font-family: 'Montserrat', sans-serif;
             overflow: hidden;
         }
 
-        /* The Envelope Container */
-        .wrapper {
+        /* Container that allows the letter to "pop out" upwards */
+        .scene {
             position: relative;
             width: 350px;
             height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
             cursor: pointer;
-            transition: transform 0.5s ease;
+            transition: transform 0.3s ease;
         }
 
-        .wrapper:hover {
-            transform: translateY(-10px);
-        }
-
+        /* The Envelope Base */
         .envelope {
             position: relative;
             width: 100%;
             height: 100%;
-            background: var(--envelope-color);
+            background: var(--env-color);
             border-radius: 0 0 15px 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            z-index: 1;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        /* The Front Fold (The "Pocket") */
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 20;
+            border-left: 175px solid transparent;
+            border-right: 175px solid transparent;
+            border-top: 125px solid transparent;
+            border-bottom: 125px solid var(--env-inner);
+            border-radius: 0 0 15px 15px;
         }
 
         /* The Flap */
@@ -58,138 +75,108 @@
             border-left: 175px solid transparent;
             border-right: 175px solid transparent;
             border-bottom: 120px solid transparent;
-            border-top: 130px solid var(--envelope-color);
+            border-top: 130px solid var(--env-color);
             transform-origin: top;
-            transition: transform 0.6s ease-in-out, z-index 0.3s;
-            z-index: 4;
-        }
-
-        /* The Pocket Shadow */
-        .envelope::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 175px solid #ff8fa3;
-            border-right: 175px solid #ff8fa3;
-            border-top: 125px solid transparent;
-            border-bottom: 125px solid transparent;
-            z-index: 3;
-            border-radius: 0 0 15px 15px;
+            transition: transform 0.5s ease-in-out, z-index 0.3s;
+            z-index: 30;
         }
 
         /* The Letter */
         .letter {
             position: absolute;
-            bottom: 10px;
+            bottom: 10%;
             left: 5%;
             width: 90%;
-            height: 90%;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
+            height: 80%;
+            background: white;
             border-radius: 10px;
-            padding: 25px;
+            padding: 30px;
             box-sizing: border-box;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.8s ease-in-out, opacity 0.5s;
-            z-index: 2;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.7s ease-in-out, width 0.7s ease-in-out, height 0.7s ease-in-out;
+            z-index: 15; /* Sits between back and front fold */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.5);
         }
 
         .letter h2 {
             font-family: 'Great Vibes', cursive;
-            font-size: 2.2rem;
-            color: var(--envelope-dark);
+            font-size: 2rem;
+            color: var(--env-shadow);
             margin: 0 0 10px 0;
+            white-space: nowrap;
         }
 
         .letter p {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: var(--text-color);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #444;
             margin: 0;
         }
 
-        /* Interactions */
-        .wrapper.open .flap {
+        /* Open State Logic */
+        .envelope-wrapper.open .flap {
             transform: rotateX(180deg);
-            z-index: 0;
+            z-index: 5; /* Moves behind everything when opened */
         }
 
-        .wrapper.open .letter {
-            transform: translateY(-160px) scale(1.1);
-            z-index: 5;
-            background: white;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+        .envelope-wrapper.open .letter {
+            /* Moves the letter UP and makes it BIGGER */
+            transform: translateY(-180px) scale(1.2);
+            z-index: 25; /* Higher than the front fold */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            height: 100%;
         }
 
-        /* Surprise Button */
+        /* Elements for the "Surprise" */
         #flowersBtn {
             margin-top: 15px;
-            background: var(--envelope-color);
+            background: var(--env-color);
             color: white;
             border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
             font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
+            font-size: 0.8rem;
+            font-weight: 600;
             cursor: pointer;
             opacity: 0;
-            transition: 0.3s;
+            transition: 0.4s;
             pointer-events: none;
         }
 
-        .wrapper.open #flowersBtn {
+        .envelope-wrapper.open #flowersBtn {
             opacity: 1;
             pointer-events: auto;
         }
 
-        /* Particles */
         .flower-particle {
             position: absolute;
             pointer-events: none;
-            z-index: 10;
-            animation: float-around linear forwards;
+            z-index: 100;
+            animation: float-up linear forwards;
         }
 
-        @keyframes float-around {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
-        }
-
-        /* Heart Pulse */
-        .heart-icon {
-            color: var(--envelope-color);
-            font-size: 20px;
-            margin-bottom: 5px;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
+        @keyframes float-up {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-<div class="wrapper" id="envelopeWrapper">
-    <div class="flap"></div>
-    <div class="envelope"></div>
-    <div class="letter">
-        <div class="heart-icon">❤️</div>
-        <h2 id="title"></h2>
-        <p id="message"></p>
-        <button id="flowersBtn">See the Magic ✨</button>
+<div class="scene">
+    <div class="envelope-wrapper" id="envelopeWrapper">
+        <div class="flap"></div>
+        <div class="envelope"></div>
+        <div class="letter">
+            <h2 id="title"></h2>
+            <p id="message"></p>
+            <button id="flowersBtn">Click for Magic ✨</button>
+        </div>
     </div>
 </div>
 
@@ -204,52 +191,43 @@
 
     let opened = false;
 
-    wrapper.addEventListener('click', function(e) {
+    wrapper.addEventListener('click', function() {
         if (!opened) {
             opened = true;
             this.classList.add('open');
+            // Wait for flap to finish opening before typing
             setTimeout(() => {
                 typeWriter(titleEl, titleText, 0, () => {
                     typeWriter(messageEl, messageText, 0);
                 });
-            }, 800);
+            }, 600);
         }
     });
 
     function typeWriter(element, text, i, callback) {
         if (i < text.length) {
             element.innerHTML += text.charAt(i);
-            setTimeout(() => typeWriter(element, text, i + 1, callback), 60);
+            setTimeout(() => typeWriter(element, text, i + 1, callback), 50);
         } else if (callback) {
             callback();
         }
     }
 
     btn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevents clicking the letter from re-triggering
-        createFlowerExplosion();
-    });
-
-    function createFlowerExplosion() {
-        const icons = ["🌸", "🌹", "🌷", "🌺", "✨", "💖"];
-        for (let i = 0; i < 100; i++) {
+        e.stopPropagation(); 
+        const emojis = ["🌸", "🌹", "🌷", "🌺", "✨", "💖"];
+        for (let i = 0; i < 80; i++) {
             const flower = document.createElement('div');
             flower.className = 'flower-particle';
-            flower.innerText = icons[Math.floor(Math.random() * icons.length)];
-            
-            // Random styling
+            flower.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             flower.style.left = Math.random() * 100 + 'vw';
             flower.style.top = '100vh';
-            flower.style.fontSize = Math.random() * 20 + 20 + 'px';
-            flower.style.animationDuration = Math.random() * 3 + 2 + 's';
-            flower.style.opacity = Math.random();
-            
+            flower.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            flower.style.animationDuration = (Math.random() * 3 + 2) + 's';
             document.body.appendChild(flower);
-            
-            // Cleanup
-            setTimeout(() => flower.remove(), 5000);
+            setTimeout(() => flower.remove(), 4000);
         }
-    }
+    });
 </script>
 
 </body>
