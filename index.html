@@ -1,167 +1,164 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Women's Day Surprise</title>
-
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Roboto:wght@400;700&display=swap');
 
 body{
-margin:0;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(135deg,#ff9a9e,#fecfef);
-font-family:Arial;
-overflow:hidden;
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(160deg,#ffafbd,#ffc3a0);
+  font-family:'Roboto', sans-serif;
+  overflow:hidden;
+  perspective:1000px;
+}
+
+.envelope-container{
+  position:relative;
+  width:280px;
+  height:200px;
+  cursor:pointer;
 }
 
 .envelope{
-position:relative;
-width:260px;
-height:180px;
-background:#ff4d88;
-cursor:pointer;
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:linear-gradient(135deg,#ff4d88,#ff79a9);
+  border-radius:8px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  overflow:hidden;
 }
 
 .flap{
-position:absolute;
-top:-90px;
-left:0;
-width:0;
-height:0;
-border-left:130px solid transparent;
-border-right:130px solid transparent;
-border-bottom:90px solid #ff4d88;
-transition:transform 0.8s;
-transform-origin:bottom;
+  position:absolute;
+  top:-100px;
+  left:0;
+  width:0;
+  height:0;
+  border-left:140px solid transparent;
+  border-right:140px solid transparent;
+  border-bottom:100px solid #ff4d88;
+  transform-origin:bottom;
+  transition:transform 1s ease;
 }
 
-.open .flap{
-transform:rotateX(180deg);
+.envelope.open .flap{
+  transform:rotateX(180deg);
 }
 
 .letter{
-position:absolute;
-background:white;
-width:220px;
-height:150px;
-top:15px;
-left:20px;
-border-radius:10px;
-padding:15px;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
-transform:translateY(60px);
-opacity:0;
-transition:all 1s;
+  position:absolute;
+  width:240px;
+  height:160px;
+  top:20px;
+  left:20px;
+  border-radius:15px;
+  background:linear-gradient(145deg,#fff0f5,#ffe4e1);
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  padding:20px;
+  opacity:0;
+  transform:translateY(50px) rotateX(-10deg);
+  transition:all 1s ease;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
 }
 
-.open .letter{
-transform:translateY(-120px);
-opacity:1;
+.envelope.open .letter{
+  opacity:1;
+  transform:translateY(-120px) rotateX(0);
+}
+
+.letter h2{
+  font-family:'Parisienne', cursive;
+  font-size:28px;
+  color:#ff4d88;
+  margin:0 0 10px 0;
+  text-shadow:0 2px 5px rgba(255,255,255,0.5);
+}
+
+.letter p{
+  font-size:16px;
+  color:#555;
+  text-align:center;
+  line-height:1.5;
 }
 
 button{
-margin-top:10px;
-padding:8px 18px;
-border:none;
-border-radius:20px;
-background:#ff4d88;
-color:white;
-font-size:14px;
-cursor:pointer;
+  margin-top:15px;
+  padding:10px 22px;
+  border:none;
+  border-radius:25px;
+  background:#ff4d88;
+  color:white;
+  font-weight:bold;
+  font-size:14px;
+  cursor:pointer;
+  box-shadow:0 5px 15px rgba(255,77,136,0.4);
+  transition:0.3s;
+}
+button:hover{
+  transform:scale(1.05);
 }
 
 .flower{
-position:absolute;
-font-size:26px;
-animation:flowerRise 4s linear forwards;
+  position:absolute;
+  font-size:24px;
+  animation:fall linear forwards;
 }
 
-@keyframes flowerRise{
-0%{
-transform:translateY(0) scale(0);
-opacity:1;
+@keyframes fall{
+  0%{
+    transform:translateY(-50px) scale(0);
+    opacity:0;
+  }
+  10%{
+    opacity:1;
+  }
+  100%{
+    transform:translateY(900px) rotate(360deg) scale(1.5);
+    opacity:0;
+  }
 }
-100%{
-transform:translateY(-700px) scale(1.5);
-opacity:0;
+
+/* Sparkles */
+.sparkle{
+  position:absolute;
+  width:5px;
+  height:5px;
+  background:white;
+  border-radius:50%;
+  opacity:0.8;
+  animation:twinkle 2s infinite;
 }
+@keyframes twinkle{
+  0%,100%{opacity:0.5; transform:scale(1);}
+  50%{opacity:1; transform:scale(1.5);}
 }
 
 </style>
 </head>
-
 <body>
 
-<div class="envelope" id="envelope">
-<div class="flap"></div>
-
-<div class="letter">
-<p id="text"></p>
-<button onclick="flowers()">Open Surprise</button>
-</div>
-
+<div class="envelope-container" id="envelopeContainer">
+  <div class="envelope" id="envelope">
+    <div class="flap"></div>
+    <div class="letter">
+      <h2 id="typedTitle"></h2>
+      <p id="typedMessage"></p>
+      <button onclick="flowers()">Open Surprise</button>
+    </div>
+  </div>
 </div>
 
 <audio id="music" autoplay loop>
-<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_9b0c61c0c2.mp3">
-</audio>
-
-<script>
-
-const envelope=document.getElementById("envelope")
-const text=document.getElementById("text")
-
-const message="Happy Women's Day to the woman who has my whole heart. I love you Perloula ❤️"
-
-envelope.onclick=()=>{
-envelope.classList.add("open")
-typeText()
-}
-
-function typeText(){
-let i=0
-let speed=50
-
-function typing(){
-if(i<message.length){
-text.innerHTML+=message.charAt(i)
-i++
-setTimeout(typing,speed)
-}
-}
-typing()
-}
-
-function flowers(){
-
-const flowers=["🌸","🌷","🌹","🌼","💐"]
-
-for(let i=0;i<200;i++){
-
-const flower=document.createElement("div")
-flower.classList.add("flower")
-
-flower.innerHTML=flowers[Math.floor(Math.random()*flowers.length)]
-
-flower.style.left=Math.random()*100+"vw"
-flower.style.bottom="0px"
-
-flower.style.fontSize=(20+Math.random()*30)+"px"
-
-document.body.appendChild(flower)
-
-setTimeout(()=>flower.remove(),4000)
-
-}
-
-}
-
-</script>
-
-</body>
-</html>
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_9b0c61c0c2.mp3" type="audio/mpeg">
 ```
