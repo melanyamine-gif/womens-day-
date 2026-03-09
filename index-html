@@ -3,229 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Perloula 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    <title>For My Perloula 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --env-color: #ff4d6d;
-            --env-inner: #ff8fa3;
-            --env-shadow: #c9184a;
-            --bg: #fff5f7;
+            --rose: #ff758c;
+            --soft-pink: #ffafbd;
+            --white: #ffffff;
+            --text: #4a4a4a;
         }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            margin: 0;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle at center, #fff5f7 0%, #ffdae9 100%);
-            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Poppins', sans-serif;
             overflow: hidden;
+            perspective: 1500px;
         }
 
-        /* Container that allows the letter to "pop out" upwards */
-        .scene {
+        /* The background "glow" */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: var(--soft-pink);
+            filter: blur(150px);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .container {
             position: relative;
-            width: 350px;
-            height: 250px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 320px;
+            height: 220px;
+            cursor: pointer;
         }
 
+        /* The Envelope Base */
         .envelope-wrapper {
             position: relative;
             width: 100%;
             height: 100%;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        /* The Envelope Base */
-        .envelope {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background: var(--env-color);
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            background: var(--rose);
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
             z-index: 10;
-        }
-
-        /* The Front Fold (The "Pocket") */
-        .envelope::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            z-index: 20;
-            border-left: 175px solid transparent;
-            border-right: 175px solid transparent;
-            border-top: 125px solid transparent;
-            border-bottom: 125px solid var(--env-inner);
-            border-radius: 0 0 15px 15px;
         }
 
         /* The Flap */
         .flap {
             position: absolute;
             top: 0;
+            left: 0;
             width: 0;
             height: 0;
-            border-left: 175px solid transparent;
-            border-right: 175px solid transparent;
-            border-bottom: 120px solid transparent;
-            border-top: 130px solid var(--env-color);
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 120px solid var(--rose);
             transform-origin: top;
-            transition: transform 0.5s ease-in-out, z-index 0.3s;
-            z-index: 30;
+            transition: transform 0.6s ease, z-index 0.2s;
+            z-index: 40; /* Starts on top */
         }
 
-        /* The Letter */
+        /* The Front Pocket */
+        .envelope-wrapper::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid #ff8fa3;
+            border-right: 160px solid #ff8fa3;
+            border-top: 110px solid transparent;
+            border-bottom: 110px solid #ff8fa3;
+            border-radius: 0 0 10px 10px;
+            z-index: 30; /* Above the letter initially */
+        }
+
+        /* THE LETTER - The star of the show */
         .letter {
             position: absolute;
-            bottom: 10%;
-            left: 5%;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 90%;
             height: 80%;
             background: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-sizing: border-box;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: transform 0.7s ease-in-out, width 0.7s ease-in-out, height 0.7s ease-in-out;
-            z-index: 15; /* Sits between back and front fold */
+            padding: 25px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20; /* Between back and front */
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             text-align: center;
         }
 
         .letter h2 {
             font-family: 'Great Vibes', cursive;
-            font-size: 2rem;
-            color: var(--env-shadow);
-            margin: 0 0 10px 0;
-            white-space: nowrap;
+            color: var(--rose);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            opacity: 0;
+            transition: 0.5s;
         }
 
         .letter p {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #444;
-            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text);
+            line-height: 1.6;
+            opacity: 0;
+            transition: 0.5s;
         }
 
-        /* Open State Logic */
-        .envelope-wrapper.open .flap {
+        /* OPEN STATE ANIMATIONS */
+        .container.open .flap {
             transform: rotateX(180deg);
-            z-index: 5; /* Moves behind everything when opened */
+            z-index: 5; /* Flap goes behind envelope */
         }
 
-        .envelope-wrapper.open .letter {
-            /* Moves the letter UP and makes it BIGGER */
-            transform: translateY(-180px) scale(1.2);
-            z-index: 25; /* Higher than the front fold */
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-            height: 100%;
+        .container.open .letter {
+            /* This makes it escape the envelope and grow! */
+            bottom: 100px;
+            height: 380px; 
+            width: 350px;
+            z-index: 50; /* Moves to very front */
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            padding: 40px 30px;
         }
 
-        /* Elements for the "Surprise" */
-        #flowersBtn {
-            margin-top: 15px;
-            background: var(--env-color);
+        .container.open .letter h2, 
+        .container.open .letter p {
+            opacity: 1;
+        }
+
+        /* Aesthetic Button */
+        #magicBtn {
+            margin-top: 20px;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
             font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             cursor: pointer;
-            opacity: 0;
-            transition: 0.4s;
+            box-shadow: 0 10px 20px rgba(255, 117, 140, 0.3);
+            transition: 0.3s;
+            display: none; /* Only show when open */
+        }
+
+        .container.open #magicBtn {
+            display: block;
+        }
+
+        #magicBtn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 25px rgba(255, 117, 140, 0.4);
+        }
+
+        /* FLOWER SYSTEM */
+        .flower {
+            position: fixed;
             pointer-events: none;
+            z-index: 999;
+            font-size: 24px;
+            will-change: transform;
+            animation: fall-and-sway linear forwards;
         }
 
-        .envelope-wrapper.open #flowersBtn {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .flower-particle {
-            position: absolute;
-            pointer-events: none;
-            z-index: 100;
-            animation: float-up linear forwards;
-        }
-
-        @keyframes float-up {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        @keyframes fall-and-sway {
+            0% {
+                transform: translateY(-10vh) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="scene">
-    <div class="envelope-wrapper" id="envelopeWrapper">
-        <div class="flap"></div>
-        <div class="envelope"></div>
-        <div class="letter">
-            <h2 id="title"></h2>
-            <p id="message"></p>
-            <button id="flowersBtn">Click for Magic ✨</button>
-        </div>
+<div class="container" id="card">
+    <div class="flap"></div>
+    <div class="envelope-wrapper"></div>
+    <div class="letter" id="letterBody">
+        <h2 id="title"></h2>
+        <p id="msg"></p>
+        <button id="magicBtn">Open Surprise ✨</button>
     </div>
 </div>
 
 <script>
-    const wrapper = document.getElementById('envelopeWrapper');
-    const titleEl = document.getElementById('title');
-    const messageEl = document.getElementById('message');
-    const btn = document.getElementById('flowersBtn');
+    const card = document.getElementById('card');
+    const title = document.getElementById('title');
+    const msg = document.getElementById('msg');
+    const btn = document.getElementById('magicBtn');
 
-    const titleText = "Happy Women's Day 💖";
-    const messageText = "To the woman who has my whole heart. I love you, Perloula ❤️";
+    const textTitle = "Happy Women's Day 💖";
+    const textMsg = "To the woman who has my whole heart. You are my everything, my soul, and my home. I love you endlessly, Perloula ❤️";
 
-    let opened = false;
+    let isOpened = false;
 
-    wrapper.addEventListener('click', function() {
-        if (!opened) {
-            opened = true;
-            this.classList.add('open');
-            // Wait for flap to finish opening before typing
+    // Open Envelope Logic
+    card.addEventListener('click', () => {
+        if (!isOpened) {
+            isOpened = true;
+            card.classList.add('open');
+            
+            // Start typewriter after letter finishes sliding up
             setTimeout(() => {
-                typeWriter(titleEl, titleText, 0, () => {
-                    typeWriter(messageEl, messageText, 0);
+                typeEffect(title, textTitle, 60, () => {
+                    typeEffect(msg, textMsg, 40);
                 });
-            }, 600);
+            }, 800);
         }
     });
 
-    function typeWriter(element, text, i, callback) {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            setTimeout(() => typeWriter(element, text, i + 1, callback), 50);
-        } else if (callback) {
-            callback();
+    function typeEffect(element, text, speed, callback) {
+        let i = 0;
+        function typing() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typing, speed);
+            } else if (callback) {
+                callback();
+            }
         }
+        typing();
     }
 
+    // Fixed Magic Flower Explosion
     btn.addEventListener('click', (e) => {
-        e.stopPropagation(); 
-        const emojis = ["🌸", "🌹", "🌷", "🌺", "✨", "💖"];
-        for (let i = 0; i < 80; i++) {
-            const flower = document.createElement('div');
-            flower.className = 'flower-particle';
-            flower.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-            flower.style.left = Math.random() * 100 + 'vw';
-            flower.style.top = '100vh';
-            flower.style.fontSize = (Math.random() * 20 + 20) + 'px';
-            flower.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.body.appendChild(flower);
-            setTimeout(() => flower.remove(), 4000);
+        e.stopPropagation(); // Stops the envelope from closing
+        
+        const flowers = ['🌸', '🌷', '🌹', '🌺', '✨', '💖', '💐'];
+        
+        for (let i = 0; i < 150; i++) {
+            const f = document.createElement('div');
+            f.className = 'flower';
+            f.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
+            
+            // Randomize position and animation
+            const startX = Math.random() * 100; // Left position in vw
+            const duration = Math.random() * 3 + 3; // 3 to 6 seconds
+            const delay = Math.random() * 2;
+            const size = Math.random() * 20 + 15; // 15px to 35px
+
+            f.style.left = startX + 'vw';
+            f.style.top = '-50px';
+            f.style.fontSize = size + 'px';
+            f.style.animationDuration = duration + 's';
+            f.style.animationDelay = delay + 's';
+
+            document.body.appendChild(f);
+            
+            // Remove from DOM to keep it fast
+            setTimeout(() => f.remove(), (duration + delay) * 1000);
         }
     });
 </script>
