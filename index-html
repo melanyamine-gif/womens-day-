@@ -1,227 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Women's Day Surprise</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Roboto:wght@400;700&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Perloula 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff758c;
+            --secondary: #ff7eb3;
+            --bg: #fff5f7;
+            --envelope-color: #ff4d6d;
+            --envelope-dark: #c9184a;
+            --text-color: #4a4a4a;
+        }
 
-* { box-sizing: border-box; }
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #fff5f7 0%, #ffdeeb 100%);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+        }
 
-body {
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(160deg, #ffafbd, #ffc3a0);
-  font-family: 'Roboto', sans-serif;
-  overflow: hidden;
-  perspective: 1000px;
-}
+        /* The Envelope Container */
+        .wrapper {
+            position: relative;
+            width: 350px;
+            height: 250px;
+            cursor: pointer;
+            transition: transform 0.5s ease;
+        }
 
-.envelope-container {
-  position: relative;
-  width: 300px;
-  height: 200px;
-  cursor: pointer;
-}
+        .wrapper:hover {
+            transform: translateY(-10px);
+        }
 
-.envelope {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #ff4d88, #ff79a9);
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  overflow: hidden;
-}
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: var(--envelope-color);
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            z-index: 1;
+        }
 
-.flap {
-  position: absolute;
-  top: -100px;
-  left: 0;
-  width: 0;
-  height: 0;
-  border-left: 150px solid transparent;
-  border-right: 150px solid transparent;
-  border-bottom: 100px solid #ff4d88;
-  transform-origin: bottom center;
-  transition: transform 1s ease;
-}
+        /* The Flap */
+        .flap {
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 175px solid transparent;
+            border-right: 175px solid transparent;
+            border-bottom: 120px solid transparent;
+            border-top: 130px solid var(--envelope-color);
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out, z-index 0.3s;
+            z-index: 4;
+        }
 
-.envelope.open .flap {
-  transform: rotateX(180deg);
-}
+        /* The Pocket Shadow */
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 175px solid #ff8fa3;
+            border-right: 175px solid #ff8fa3;
+            border-top: 125px solid transparent;
+            border-bottom: 125px solid transparent;
+            z-index: 3;
+            border-radius: 0 0 15px 15px;
+        }
 
-.letter {
-  position: absolute;
-  width: 260px;
-  height: 160px;
-  top: 20px;
-  left: 20px;
-  border-radius: 15px;
-  background: linear-gradient(145deg,#fff0f5,#ffe4e1);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  padding: 20px;
-  opacity: 0;
-  transform: translateY(50px) rotateX(-10deg);
-  transition: all 1s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+        /* The Letter */
+        .letter {
+            position: absolute;
+            bottom: 10px;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 25px;
+            box-sizing: border-box;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.8s ease-in-out, opacity 0.5s;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
 
-.envelope.open .letter {
-  opacity: 1;
-  transform: translateY(-120px) rotateX(0);
-}
+        .letter h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            color: var(--envelope-dark);
+            margin: 0 0 10px 0;
+        }
 
-.letter h2 {
-  font-family: 'Parisienne', cursive;
-  font-size: 30px;
-  color: #ff4d88;
-  margin: 0 0 10px 0;
-  text-shadow: 0 2px 5px rgba(255,255,255,0.5);
-}
+        .letter p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin: 0;
+        }
 
-.letter p {
-  font-size: 16px;
-  color: #555;
-  text-align: center;
-  line-height: 1.5;
-}
+        /* Interactions */
+        .wrapper.open .flap {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
 
-button {
-  margin-top: 15px;
-  padding: 10px 22px;
-  border: none;
-  border-radius: 25px;
-  background: #ff4d88;
-  color: white;
-  font-weight: bold;
-  font-size: 14px;
-  cursor: pointer;
-  box-shadow: 0 5px 15px rgba(255,77,136,0.4);
-  transition: 0.3s;
-}
-button:hover {
-  transform: scale(1.05);
-}
+        .wrapper.open .letter {
+            transform: translateY(-160px) scale(1.1);
+            z-index: 5;
+            background: white;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+        }
 
-.flower {
-  position: absolute;
-  font-size: 24px;
-  animation: fall linear forwards;
-}
+        /* Surprise Button */
+        #flowersBtn {
+            margin-top: 15px;
+            background: var(--envelope-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: 0;
+            transition: 0.3s;
+            pointer-events: none;
+        }
 
-@keyframes fall {
-  0% {
-    transform: translateY(-50px) scale(0);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(900px) rotate(360deg) scale(1.5);
-    opacity: 0;
-  }
-}
+        .wrapper.open #flowersBtn {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
-/* Sparkles */
-.sparkle {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  opacity: 0.8;
-  animation: twinkle 2s infinite;
-}
+        /* Particles */
+        .flower-particle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 10;
+            animation: float-around linear forwards;
+        }
 
-@keyframes twinkle {
-  0%,100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.5); }
-}
-</style>
+        @keyframes float-around {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Heart Pulse */
+        .heart-icon {
+            color: var(--envelope-color);
+            font-size: 20px;
+            margin-bottom: 5px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
 </head>
 <body>
 
-<div class="envelope-container" id="envelopeContainer">
-  <div class="envelope" id="envelope">
+<div class="wrapper" id="envelopeWrapper">
     <div class="flap"></div>
+    <div class="envelope"></div>
     <div class="letter">
-      <h2 id="typedTitle"></h2>
-      <p id="typedMessage"></p>
-      <button id="flowersBtn">Open Surprise</button>
+        <div class="heart-icon">❤️</div>
+        <h2 id="title"></h2>
+        <p id="message"></p>
+        <button id="flowersBtn">See the Magic ✨</button>
     </div>
-  </div>
 </div>
 
-<audio id="music" autoplay loop>
-  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_9b0c61c0c2.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-const envelopeContainer = document.getElementById("envelopeContainer");
-const envelope = document.getElementById("envelope");
-const typedTitle = document.getElementById("typedTitle");
-const typedMessage = document.getElementById("typedMessage");
-const flowersBtn = document.getElementById("flowersBtn");
+    const wrapper = document.getElementById('envelopeWrapper');
+    const titleEl = document.getElementById('title');
+    const messageEl = document.getElementById('message');
+    const btn = document.getElementById('flowersBtn');
 
-const title = "Happy Women's Day 💖";
-const message = "To the woman who has my whole heart. I love you Perloula ❤️";
+    const titleText = "Happy Women's Day 💖";
+    const messageText = "To the woman who has my whole heart. I love you, Perloula ❤️";
 
-// Open envelope on first click
-envelopeContainer.addEventListener("click", () => {
-  if (!envelope.classList.contains("open")) {
-    envelope.classList.add("open");
-    typeText(typedTitle, title, 50, () => {
-      typeText(typedMessage, message, 50);
+    let opened = false;
+
+    wrapper.addEventListener('click', function(e) {
+        if (!opened) {
+            opened = true;
+            this.classList.add('open');
+            setTimeout(() => {
+                typeWriter(titleEl, titleText, 0, () => {
+                    typeWriter(messageEl, messageText, 0);
+                });
+            }, 800);
+        }
     });
-  }
-});
 
-function typeText(element, text, speed, callback) {
-  let i = 0;
-  element.innerHTML = "";
-  function typing() {
-    if (i < text.length) {
-      element.innerHTML += text.charAt(i);
-      i++;
-      setTimeout(typing, speed);
-    } else if (callback) {
-      callback();
+    function typeWriter(element, text, i, callback) {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            setTimeout(() => typeWriter(element, text, i + 1, callback), 60);
+        } else if (callback) {
+            callback();
+        }
     }
-  }
-  typing();
-}
 
-flowersBtn.addEventListener("click", () => {
-  const flowers = ["🌸","🌷","🌹","🌼","💐"];
-  for(let i=0; i<250; i++){
-    const flower = document.createElement("div");
-    flower.classList.add("flower");
-    flower.innerHTML = flowers[Math.floor(Math.random()*flowers.length)];
-    flower.style.left = Math.random()*100+"vw";
-    flower.style.fontSize = (20 + Math.random()*30)+"px";
-    flower.style.animationDuration = (3 + Math.random()*3)+"s";
-    document.body.appendChild(flower);
-    setTimeout(()=> flower.remove(), 6000);
-  }
-  
-  for(let i=0; i<50; i++){
-    const sparkle = document.createElement("div");
-    sparkle.classList.add("sparkle");
-    sparkle.style.left = Math.random()*100+"vw";
-    sparkle.style.top = Math.random()*100+"vh";
-    sparkle.style.width = (2+Math.random()*4)+"px";
-    sparkle.style.height = (2+Math.random()*4)+"px";
-    sparkle.style.animationDuration = (1+Math.random()*2)+"s";
-    document.body.appendChild(sparkle);
-    setTimeout(()=> sparkle.remove(), 6000);
-  }
-});
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevents clicking the letter from re-triggering
+        createFlowerExplosion();
+    });
+
+    function createFlowerExplosion() {
+        const icons = ["🌸", "🌹", "🌷", "🌺", "✨", "💖"];
+        for (let i = 0; i < 100; i++) {
+            const flower = document.createElement('div');
+            flower.className = 'flower-particle';
+            flower.innerText = icons[Math.floor(Math.random() * icons.length)];
+            
+            // Random styling
+            flower.style.left = Math.random() * 100 + 'vw';
+            flower.style.top = '100vh';
+            flower.style.fontSize = Math.random() * 20 + 20 + 'px';
+            flower.style.animationDuration = Math.random() * 3 + 2 + 's';
+            flower.style.opacity = Math.random();
+            
+            document.body.appendChild(flower);
+            
+            // Cleanup
+            setTimeout(() => flower.remove(), 5000);
+        }
+    }
 </script>
+
 </body>
 </html>
